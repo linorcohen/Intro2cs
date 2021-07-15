@@ -24,13 +24,16 @@ def calculate_mathematical_expression(first_num, second_num, math_operator):
     :rtype: int or float
     """
     solution = None
+
+    # the code below calculates the mathematical solution according
+    # to the mathematical operator
     if math_operator == '+':
         solution = first_num + second_num
     elif math_operator == '-':
         solution = first_num - second_num
     elif math_operator == '*':
         solution = first_num * second_num
-    elif math_operator == ':' and second_num != 0:
+    elif math_operator == ':' and second_num != 0:  # division by zero illegal
         solution = first_num / second_num
     return solution
 
@@ -45,10 +48,10 @@ def calculate_from_string(math_expression):
     :return: solution of the mathematical expression. else, returns none.
     :rtype: int or float
     """
+    # the code below separated the string and calculate the equation solution
     math_expression_list = math_expression.split(' ')
     first_num = float(math_expression_list[0])
-    second_num = float(math_expression_list[2])
     math_operator = math_expression_list[1]
-    solution = calculate_mathematical_expression(first_num, second_num,
-                                                 math_operator)
-    return solution
+    second_num = float(math_expression_list[2])
+    return calculate_mathematical_expression(first_num, second_num,
+                                             math_operator)

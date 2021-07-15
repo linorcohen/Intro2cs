@@ -28,10 +28,12 @@ def quadratic_equation(a, b, c):
     denominator = a * 2
     first_solution = None
     second_solution = None
-    if discriminant > 0:
+    # the code below checks how many solutions the equation has, and calculates
+    # them
+    if discriminant > 0:  # two solutions
         first_solution = (-b + math.sqrt(discriminant)) / denominator
         second_solution = (-b - math.sqrt(discriminant)) / denominator
-    elif discriminant == 0:
+    elif discriminant == 0:  # one solution
         first_solution = -b / denominator
         second_solution = None
     return first_solution, second_solution
@@ -41,18 +43,19 @@ def quadratic_equation_user_input():
     """
     This function asks from the user to input coefficients of a quadratic
     equation and prints the solutions of that equation.
-    :return: print of the quadratic equation solutions
-    :rtype: str
     """
-    user_coefficients = input("insert coefficients a, b, and c: ")
-    user_coefficients_list = user_coefficients.split(' ')
-    b = float(user_coefficients_list[1])
-    c = float(user_coefficients_list[2])
-    a = float(user_coefficients_list[0])
+    # gets the user input and splits it
+    user_coefficients = (input("insert coefficients a, b, and c: ")).split(' ')
+    a = float(user_coefficients[0])
+    b = float(user_coefficients[1])
+    c = float(user_coefficients[2])
+
     if a == 0:
         print("The parameter 'a' may not equal 0")
         return
 
+    # the code below checks the amount of solutions for the equation,
+    # and prints them
     first_solution, second_solution = quadratic_equation(a, b, c)
     if first_solution is None and second_solution is None:
         print("The equation has no solutions")
@@ -62,4 +65,4 @@ def quadratic_equation_user_input():
         return
     print("The equation has 2 solutions: " + str(first_solution) + " and " +
           str(second_solution))
-    # return
+    return

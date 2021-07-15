@@ -26,7 +26,8 @@ def is_it_summer_yet(temp_threshold, temp_day_1, temp_day_2, temp_day_3):
     then the threshold temperature. else, False.
     :rtype: bool
     """
-    count_days = 0  # sets the initial number of days to 0
+    count_days = 0  # higher days count
+    # the code below counts the days that are higher then the threshold
     if temp_threshold < temp_day_1:
         count_days += 1
     if temp_threshold < temp_day_2:

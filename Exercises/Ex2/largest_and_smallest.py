@@ -9,9 +9,12 @@
 # NOTES: NONE
 #################################################################
 
-# I choose the input (0, 0, 0) to check what the function will do if she will
-# get three identical numbers.
-# I choose the input () to check
+# inputs for check_largest_and_smallest():
+# I choose the input (0, 0, 0) to check if the function can handle
+# three identical numbers.
+# I choose the input (-7, -1, -12) to check if the function can handle
+# negative numbers while they are not sorted.
+
 
 def largest_and_smallest(first_num, second_num, third_num):
     """
@@ -27,12 +30,14 @@ def largest_and_smallest(first_num, second_num, third_num):
     :rtype: int or float
     """
     largest_num = first_num
+    # the next lines evaluate the largest number
     if second_num > largest_num:
         largest_num = second_num
     if third_num > largest_num:
         largest_num = third_num
 
     smallest_num = first_num
+    # the next lines evaluate the smallest number
     if second_num < smallest_num:
         smallest_num = second_num
     if third_num < smallest_num:
@@ -43,19 +48,20 @@ def largest_and_smallest(first_num, second_num, third_num):
 
 def check_largest_and_smallest():
     """
-    This function checks the function largest_and_smallest() using corner cases
+    This function checks the function largest_and_smallest().
     :return: True if the function returned all the expected results.
-    if at least one of the results is wrong, returns False.
+    False, if at least one of the results is wrong.
     :rtype: bool
     """
-    if (17, 1) != largest_and_smallest(17, 1, 6):
+    # the code below checks the outputs of the function calls
+    if largest_and_smallest(17, 1, 6) != (17, 1):
         return False
-    elif (17, 1) != largest_and_smallest(1, 17, 6):
+    elif largest_and_smallest(1, 17, 6) != (17, 1):
         return False
-    elif (2, 1) != largest_and_smallest(1, 1, 2):
+    elif largest_and_smallest(1, 1, 2) != (2, 1):
         return False
-    elif (0, 0) != largest_and_smallest(0, 0, 0):
+    elif largest_and_smallest(0, 0, 0) != (0, 0):
         return False
-    elif (21, -21) != largest_and_smallest(-21, 0, 21):
+    elif largest_and_smallest(-7, -1, -12) != (-1, -12):
         return False
     return True
