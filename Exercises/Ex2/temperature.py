@@ -16,13 +16,13 @@ def is_it_summer_yet(temp_threshold, temp_day_1, temp_day_2, temp_day_3):
     higher then the threshold temperature.
     :param temp_threshold: threshold temperature
     :type temp_threshold: int or float
-    :param temp_day_1: temperature on day 1
+    :param temp_day_1: temperature day 1
     :type temp_day_1: int or float
-    :param temp_day_2: temperature on day 2
+    :param temp_day_2: temperature day 2
     :type temp_day_2: int or float
-    :param temp_day_3: temperature on day 3
+    :param temp_day_3: temperature day 3
     :type temp_day_3: int or float
-    :return: True if two or more days had temperature higher
+    :return: True, if two or more days had temperature higher
     then the threshold temperature. else, False.
     :rtype: bool
     """

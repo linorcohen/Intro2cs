@@ -2,8 +2,8 @@
 # FILE : quadratic_equation.py
 # WRITER : Linor Cohen , linorcohen , 318861226
 # EXERCISE : intro2cse ex2 2021
-# DESCRIPTION: A simple program that returns the solutions (if there are any)
-# of a quadratic equation.
+# DESCRIPTION: A simple program that returns the solutions of a quadratic
+# equation.
 # STUDENTS I DISCUSSED THE EXERCISE WITH: NONE
 # WEB PAGES I USED: https://en.wikipedia.org/wiki/Quadratic_equation
 # NOTES: NONE
@@ -22,7 +22,7 @@ def quadratic_equation(a, b, c):
     :param c: free term
     :type c: int or float
     :return: the solutions of the quadratic equation
-    :rtype: int or float, else, returns none.
+    :rtype: int or float
     """
     discriminant = (b ** 2) - (a * c * 4)
     denominator = a * 2
@@ -63,6 +63,5 @@ def quadratic_equation_user_input():
     if first_solution is not None and second_solution is None:
         print("The equation has 1 solutions: " + str(first_solution))
         return
-    print("The equation has 2 solutions: " + str(first_solution) + " and " +
-          str(second_solution))
-    return
+    print("The equation has 2 solutions: " + str(first_solution) + " and "
+          + str(second_solution))

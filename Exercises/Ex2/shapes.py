@@ -10,14 +10,12 @@
 #################################################################
 import math
 
-PI = math.pi
-
 
 def shape_area():
     """
     This function asks the user to choose a shape to calculate its area,
     and to provide the data for the calculation.
-    :return: the area of the shape. else, return none.
+    :return: the area of the shape. else, return None.
     :rtype: float
     """
     user_shape = int(input("Choose shape (1=circle, 2=rectangle,"
@@ -40,7 +38,7 @@ def circle_area():
     :rtype: float
     """
     radios = float(input())
-    return (radios ** 2) * PI
+    return (radios ** 2) * math.pi
 
 
 def rectangle_area():
@@ -49,9 +47,9 @@ def rectangle_area():
     :return: area of a rectangle
     :rtype: float
     """
-    first_side = float(input())
-    second_side = float(input())
-    return first_side * second_side
+    side_1 = float(input())
+    side_2 = float(input())
+    return side_1 * side_2
 
 
 def triangle_area():

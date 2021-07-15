@@ -20,7 +20,7 @@ def calculate_mathematical_expression(first_num, second_num, math_operator):
     :type second_num: int or float
     :param math_operator: mathematical operator ('-', '+', '*', or ':')
     :type math_operator: str
-    :return: returns the result of the calculation. else, returns none.
+    :return: the result of the calculation. else, returns None.
     :rtype: int or float
     """
     solution = None
@@ -42,13 +42,14 @@ def calculate_from_string(math_expression):
     """
     This function receives a string of mathematical expression
     contain two numbers separated by one mathematical
-    operator ('-', '+', '*', ':')
+    operator ('-', '+', '*', ':').
     :param math_expression: mathematical expression
     :type math_expression: str
-    :return: solution of the mathematical expression. else, returns none.
+    :return: solution of the mathematical expression. else, returns None.
     :rtype: int or float
     """
-    # the code below separated the string and calculate the equation solution
+    # the code below separates the string and calculate the solution
+    # of the expression
     math_expression_list = math_expression.split(' ')
     first_num = float(math_expression_list[0])
     math_operator = math_expression_list[1]
