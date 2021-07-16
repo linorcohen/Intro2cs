@@ -45,11 +45,12 @@ def quadratic_equation_user_input():
     equation and prints the solutions of that equation.
     """
     # gets the user input and splits it
-    user_coefficients = (input("insert coefficients a, b, and c: ")).split(' ')
+    user_coefficients = (input("Insert coefficients a, b, and c: ")).split(' ')
     a = float(user_coefficients[0])
     b = float(user_coefficients[1])
     c = float(user_coefficients[2])
 
+    # check if the user input a = 0
     if a == 0:
         print("The parameter 'a' may not equal 0")
         return
@@ -61,7 +62,7 @@ def quadratic_equation_user_input():
         print("The equation has no solutions")
         return
     if first_solution is not None and second_solution is None:
-        print("The equation has 1 solutions: " + str(first_solution))
+        print("The equation has 1 solution: " + str(first_solution))
         return
     print("The equation has 2 solutions: " + str(first_solution) + " and "
           + str(second_solution))
