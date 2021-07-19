@@ -50,7 +50,7 @@ def quadratic_equation_user_input():
     b = float(user_coefficients[1])
     c = float(user_coefficients[2])
 
-    # check if the user input a = 0
+    # a cant equal 0
     if a == 0:
         print("The parameter 'a' may not equal 0")
         return

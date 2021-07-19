@@ -33,7 +33,8 @@ def shape_area():
 
 def circle_area():
     """
-    This function calculates the area of a circle
+    This function calculates the area of a circle by asking the user to input
+    radios.
     :return: area of a circle
     :rtype: float
     """
@@ -43,7 +44,8 @@ def circle_area():
 
 def rectangle_area():
     """
-    This function calculates the area of a rectangle
+    This function calculates the area of a rectangle by asking the user to
+    input the rectangle sides.
     :return: area of a rectangle
     :rtype: float
     """
@@ -54,7 +56,8 @@ def rectangle_area():
 
 def triangle_area():
     """
-    This function calculates the area of a triangle
+    This function calculates the area of a equilateral triangle by asking the
+    user to input the triangle side.
     :return: area of a triangle
     :rtype: float
     """
