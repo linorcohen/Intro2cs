@@ -15,6 +15,7 @@ if __name__ == '__main__':
     assert calculate_mathematical_expression(10, 4, '%') is None
 
     assert calculate_from_string('2 - 7') == -5
+    assert calculate_from_string('0 - -3') == 3
     assert calculate_from_string('7 - 2') == 5
     assert calculate_from_string('4 : 10') == 0.4
     assert calculate_from_string('10 : 4') == 2.5
