@@ -94,6 +94,7 @@ if __name__ == '__main__':
     assert sum_of_vectors([[1, 1, 1, 1, 1], [1, 1, 1, 1, 1]]) == [2, 2, 2, 2, 2]
 
     assert sum_of_vectors([[], []]) == []
+
     assert sum_of_vectors([[]]) is None
 
     assert num_of_orthogonal([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) == 3
