@@ -1,7 +1,7 @@
 from ex3 import *
 
 if __name__ == '__main__':
-    print(input_list())
+    # print(input_list())
 
     assert inner_product([1, 2, 3, 0], [1, 2, 3, 0]) == 14
     assert inner_product([1, 2, 3], [1, 2, 3]) == 14
