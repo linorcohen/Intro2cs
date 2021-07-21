@@ -1,3 +1,5 @@
+import time
+
 from ex3 import *
 
 if __name__ == '__main__':
@@ -110,5 +112,13 @@ if __name__ == '__main__':
                               [9, 9, 9, 9]]) == 0
 
     assert num_of_orthogonal([[0], [0], [0], [0]]) == 6
+    # start = time.process_time()
+    # primes_for_asafi(50000)
+    # end = time.process_time()
+    # print(end-start)
+    # start_2 = time.process_time()
+    # primes_for_asafi(50000)
+    # end_2 = time.process_time()
+    # print(end_2 - start_2)
 
 print('all tests passed')
