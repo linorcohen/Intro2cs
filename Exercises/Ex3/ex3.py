@@ -2,7 +2,7 @@
 # FILE : ex3.py
 # WRITER : Linor Cohen , linorcohen , 318861226
 # EXERCISE : intro2cse ex3 2021
-# DESCRIPTION: A simple program that practices
+# DESCRIPTION: A simple program that practice the use of loops.
 # STUDENTS I DISCUSSED THE EXERCISE WITH: NONE
 # WEB PAGES I USED: https://encyclopediaofmath.org/wiki/Monotone_function
 # NOTES: NONE
@@ -15,17 +15,16 @@ def input_list():
     :return: list of all the numbers, and their sum in the end.
     :rtype: list of float or int
     """
-    list_num = []
+    num_list = []
     list_sum = 0
-    while True:
-        user_input = input()
-        if user_input == '':  # '' represents end of input/loop
-            break
-        # the code below adds the number to the list and to the sum
-        list_num.append(float(user_input))
+    user_input = input()
+    while user_input != '':  # '' represents end of input/loop
+        # the code below adds the input number to the list and to the sum
+        num_list.append(float(user_input))
         list_sum += float(user_input)
-    list_num.append(list_sum)  # adds the sum to the end of the list
-    return list_num
+        user_input = input()
+    num_list.append(list_sum)  # adds the sum to the end of the list
+    return num_list
 
 
 def inner_product(vec_1, vec_2):
@@ -38,21 +37,21 @@ def inner_product(vec_1, vec_2):
     :return: inner product
     :rtype: int or float
     """
+    if len(vec_1) != len(vec_2):  # lists are not the same length - illegal
+        return
+    # the code below adds to the dot product of the two vectors
     inner_product_result = 0
-    if len(vec_1) == len(vec_2):
-        # the code below adds to the inner_product_result the products of the
-        # coordinates with same index
-        for index in range(len(vec_1)):
-            inner_product_result += vec_1[index] * vec_2[index]
-        return inner_product_result
-    return  # returns None in case the lists are not the same length
+    for index in range(len(vec_1)):
+        dot_product = vec_1[index] * vec_2[index]
+        inner_product_result += dot_product
+    return inner_product_result
 
 
 def sequence_monotonicity(sequence):
     """
     This function gets a list of a sequence of numbers and returns a 4 boolean
     items list if the sequence meets the conditions:
-    [ if increasing, if very increasing, if decreasing, if very decreasing]
+    [if increasing, if strictly increasing, if decreasing, if strictly decreasing]
     :param sequence: a sequence of numbers
     :type sequence: list of int or float
     :return: list of 4 boolean items: for each - True if the sequence meets the
@@ -62,9 +61,9 @@ def sequence_monotonicity(sequence):
     monotonicity_list = [True, True, True, True]
     # the code below sets the monotonicity of the sequence
     monotonicity_list[0] = check_increasing(sequence)
-    monotonicity_list[1] = check_very_increasing(sequence)
+    monotonicity_list[1] = check_strictly_increasing(sequence)
     monotonicity_list[2] = check_decreasing(sequence)
-    monotonicity_list[3] = check_very_decreasing(sequence)
+    monotonicity_list[3] = check_strictly_decreasing(sequence)
 
     return monotonicity_list
 
@@ -83,12 +82,13 @@ def check_increasing(sequence):
     return True
 
 
-def check_very_increasing(sequence):
+def check_strictly_increasing(sequence):
     """
-    This function checks if a sequence is monotonically very increasing.
+    This function checks if a sequence is monotonically strictly increasing.
     :param sequence: a sequence of numbers
     :type sequence: list of int or float
-    :return: True if the sequence is monotonically very increasing, else False.
+    :return: True if the sequence is monotonically strictly increasing,
+    else False.
     :rtype: bool
     """
     for index in range(len(sequence) - 1):
@@ -111,12 +111,13 @@ def check_decreasing(sequence):
     return True
 
 
-def check_very_decreasing(sequence):
+def check_strictly_decreasing(sequence):
     """
-    This function checks if a sequence is monotonically very decreasing.
+    This function checks if a sequence is monotonically strictly decreasing.
     :param sequence: a sequence of numbers
     :type sequence: list of int or float
-    :return: True if the sequence is monotonically very decreasing, else False.
+    :return: True if the sequence is monotonically strictly decreasing,
+    else False.
     :rtype: bool
     """
     for index in range(len(sequence) - 1):
@@ -130,7 +131,7 @@ def monotonicity_inverse(def_bool):
     This function gets a list of 4 boolean values, represents the monotonicity
     of a sequence, and returns a sequence that meets the conditions depending
     on where True is in the list:
-    [ if increasing, if very increasing, if decreasing, if very decreasing]
+    [ if increasing, if strictly increasing, if decreasing, if strictly decreasing]
     :param def_bool: list of 4 boolean items
     :type def_bool: list of bool
     :return: list of 4 numbers
@@ -187,16 +188,16 @@ def sum_of_vectors(vec_lst):
     :rtype: list of int or float
     """
     vectors_sum = []
-    if vec_lst != [[]]:
-        # the code below adds to the vectors sum the sum of coordinates with
-        # same index
-        for index in range(len(vec_lst[0])):
-            vec_index_sum = 0
-            for vec_num in range(len(vec_lst)):
-                vec_index_sum += vec_lst[vec_num][index]
-            vectors_sum.append(vec_index_sum)
-        return vectors_sum
-    return  # return None in case of one empty list received
+    if vec_lst == [[]]:  # return None in case of one empty list received
+        return
+    # the code below adds to the vectors sum the sum of coordinates with
+    # same index
+    for index in range(len(vec_lst[0])):
+        index_sum = 0
+        for vec_num in range(len(vec_lst)):
+            index_sum += vec_lst[vec_num][index]
+        vectors_sum.append(index_sum)
+    return vectors_sum
 
 
 def num_of_orthogonal(vectors):
