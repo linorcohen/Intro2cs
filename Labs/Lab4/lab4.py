@@ -59,25 +59,47 @@ def is_board_empty(board):
 def get_input(board):
     """
     This function ask the player to input row number and number of matches,
-    check their validity and returns them.
+    and returns them.
     :param board: list of numbers
     :type board: list of int
     :return: row number, matches number
     :rtype: int, int
     """
-    # the code below ask the player to enter a row number, if row number
-    # invalid, ask until get a valid input
+    row = get_row_input(board)
+    num_matches = get_matches_to_remove_input(row, board)
+    return row, num_matches
+
+
+def get_row_input(board):
+    """
+    This function ask the player to enter a row number, check their validity
+    if row number invalid, ask until get a valid input.
+    :param board: list of numbers
+    :type board: list of int
+    :return: row number
+    :rtype: int
+    """
     row = int(input('Enter row number: '))
     while check_row_number_validity(row, board) is False:
         row = int(input('Enter row number: '))
+    return row
 
-    # the code below ask the player to enter a matches number, if matches
-    # number invalid, ask until get a valid input
+
+def get_matches_to_remove_input(row, board):
+    """
+    This function ask the player to enter a matches number, check their
+    validity if matches number invalid, ask until get a valid input.
+    :param row: number of row
+    :type row: int
+    :param board: list of numbers
+    :type board: list of int
+    :return: matches number
+    :rtype: int
+    """
     num_matches = int(input('Enter number of matches to remove: '))
     while check_amount_taken(row, num_matches, board) is False:
         num_matches = int(input('Enter number of matches to remove: '))
-
-    return row, num_matches
+    return num_matches
 
 
 def check_row_number_validity(row, board):
