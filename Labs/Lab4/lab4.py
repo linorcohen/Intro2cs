@@ -127,7 +127,7 @@ def check_amount_taken(row, num_matches, board):
     :type num_matches: int
     :param board: list of numbers
     :type board: list of int
-    :return: True if valid number of matches to remove is valid, else False.
+    :return: True if number of matches to remove is valid, else False.
     :rtype: bool
     """
     if num_matches > board[row - 1] or num_matches < 1:
@@ -155,7 +155,7 @@ def run_game():
     """
     board = init_board()  # initialize the board
     player = '2'
-    while not is_board_empty(board):  # until the board is empty
+    while is_board_empty(board) is False:  # until the board is empty
         player = get_next_player(player)  # get the next player
         print(f'player {player} turn:')
         print_board(board)
