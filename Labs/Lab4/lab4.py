@@ -8,6 +8,8 @@
 # NOTES: NONE
 #################################################################
 
+BOARD_ROWS = 5
+
 
 def init_board():
     """
@@ -15,7 +17,7 @@ def init_board():
     :return: list of numbers in ascending order
     :rtype: list of int
     """
-    return [i for i in range(1, 7)]
+    return [i+1 for i in range(0, BOARD_ROWS)]
 
 
 def get_next_player(player):
@@ -37,10 +39,10 @@ def print_board(board):
     :param board: list of numbers
     :type board: list of int
     """
-    print('*** Board ***')
-    for row in board:
-        print(row)
-    print('*************')
+    print('--- Board ---')
+    for row in range(len(board)):
+        print(f'{row+1}: {board[row] *"*"}')
+    print('-------------')
 
 
 def is_board_empty(board):
@@ -63,7 +65,7 @@ def get_input(board):
     :param board: list of numbers
     :type board: list of int
     :return: row number, matches number
-    :rtype: int, int
+    :rtype: (int, int)
     """
     row = get_row_input(board)
     num_matches = get_matches_to_remove_input(row, board)
@@ -81,6 +83,7 @@ def get_row_input(board):
     """
     row = int(input('Enter row number: '))
     while check_row_number_validity(row, board) is False:
+        print('illegal row number')
         row = int(input('Enter row number: '))
     return row
 
@@ -98,6 +101,7 @@ def get_matches_to_remove_input(row, board):
     """
     num_matches = int(input('Enter number of matches to remove: '))
     while check_amount_taken(row, num_matches, board) is False:
+        print('illegal matches number')
         num_matches = int(input('Enter number of matches to remove: '))
     return num_matches
 
