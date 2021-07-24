@@ -77,6 +77,8 @@ if __name__ == '__main__':
     bool_def = [True, False, False, True]
     assert monotonicity_inverse(bool_def) is None
 
+    assert monotonicity_inverse([True, True, True, True]) is None
+
     assert primes_for_asafi(0) == []
     assert primes_for_asafi(1) == [2]
     assert primes_for_asafi(2) == [2, 3]

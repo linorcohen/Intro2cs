@@ -31,9 +31,9 @@ def inner_product(vec_1, vec_2):
     """
     This function calculates the inner product of two lists.
     :param vec_1: a lists of numbers
-    :type vec_1: list of int or list of float
+    :type vec_1: list [int or float]
     :param vec_2: a lists of numbers
-    :type vec_2: list of int or list of float
+    :type vec_2: list [int or float]
     :return: inner product
     :rtype: int or float
     """
@@ -53,7 +53,7 @@ def sequence_monotonicity(sequence):
     items list if the sequence meets the conditions:
     [if increasing, if strictly increasing, if decreasing, if strictly decreasing]
     :param sequence: a sequence of numbers
-    :type sequence: list of int or list of float
+    :type sequence: list [int or float]
     :return: list of 4 boolean items: for each - True if the sequence meets the
     condition, else False.
     :rtype: list of bool
@@ -72,7 +72,7 @@ def check_increasing(sequence):
     """
     This function checks if a sequence is monotonically increasing.
     :param sequence: a sequence of numbers
-    :type sequence: list of int or list of float
+    :type sequence: list [int or float]
     :return: True if the sequence is monotonically increasing, else False.
     :rtype: bool
     """
@@ -86,7 +86,7 @@ def check_strictly_increasing(sequence):
     """
     This function checks if a sequence is monotonically strictly increasing.
     :param sequence: a sequence of numbers
-    :type sequence: list of int or list of float
+    :type sequence: list [int or float]
     :return: True if the sequence is monotonically strictly increasing,
     else False.
     :rtype: bool
@@ -101,7 +101,7 @@ def check_decreasing(sequence):
     """
     This function checks if a sequence is monotonically decreasing.
     :param sequence: a sequence of numbers
-    :type sequence: list of int or list of float
+    :type sequence: list [int or float]
     :return: True if the sequence is monotonically decreasing, else False.
     :rtype: bool
     """
@@ -115,7 +115,7 @@ def check_strictly_decreasing(sequence):
     """
     This function checks if a sequence is monotonically strictly decreasing.
     :param sequence: a sequence of numbers
-    :type sequence: list of int or list of float
+    :type sequence: list [int or float]
     :return: True if the sequence is monotonically strictly decreasing,
     else False.
     :rtype: bool
@@ -132,9 +132,10 @@ def monotonicity_inverse(def_bool):
     of a sequence, and returns a sequence that meets the conditions depending
     on where True is in the list:
     [ if increasing, if strictly increasing, if decreasing, if strictly decreasing]
+    if there is no sequence that meet the condition returns None.
     :param def_bool: list of 4 boolean items
     :type def_bool: list of bool
-    :return: list of 4 numbers
+    :return: list of 4 numbers, else None.
     :rtype: list of int
     """
     lst_of_monotonic_sequences = [[1, 2, 3, 4], [1, 2, 2, 3], [1, 1, 1, 1],
@@ -142,7 +143,6 @@ def monotonicity_inverse(def_bool):
     for sequence in lst_of_monotonic_sequences:
         if sequence_monotonicity(sequence) == def_bool:
             return sequence
-    return  # None if there is on sequence that meets the conditions
 
 
 def primes_for_asafi(n):
@@ -183,11 +183,11 @@ def sum_of_vectors(vec_lst):
     This function receives a list of vectors (i.e. a list of lists) and
     returns their vector sum.
     :param vec_lst: a list of lists (list of vectors)
-    :type vec_lst: list of lists of int or list of lists of float
+    :type vec_lst: list of lists of [int or float]
     :return: list of the vectors sum
     :rtype: list of int or list of float
     """
-    vectors_sum = []
+    the_resultant = []
     if not vec_lst:  # return None in case of one empty list received
         return
     # the code below adds to the vectors sum the sum of coordinates with
@@ -196,8 +196,8 @@ def sum_of_vectors(vec_lst):
         index_sum = 0
         for vec_num in range(len(vec_lst)):
             index_sum += vec_lst[vec_num][index]
-        vectors_sum.append(index_sum)
-    return vectors_sum
+        the_resultant.append(index_sum)
+    return the_resultant
 
 
 def num_of_orthogonal(vectors):
@@ -205,7 +205,7 @@ def num_of_orthogonal(vectors):
     This function receives a list of vectors (i.e. a list of lists) and
     returns the number of pairs of lists that are perpendicular to each other.
     :param vectors: a list of lists (list of vectors)
-    :type vectors: list of lists of int or list of lists of float
+    :type vectors: list of lists of [int or float]
     :return: number of pairs of lists that are perpendicular to each other.
     :rtype: int
     """
