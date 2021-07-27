@@ -1,5 +1,5 @@
 #################################################################
-# FILE : hangman_dict.py
+# FILE : hangman.py
 # WRITER : Linor Cohen , linorcohen , 318861226
 # EXERCISE : intro2cse ex4 2021
 # DESCRIPTION: A simple program that operates the game hangman.
@@ -14,10 +14,8 @@ WIN_MASSAGE = 'You won the game!'
 LOSE_MASSAGE = 'You lost the game. The word was '
 LETTER_INVALID_MASSAGE = 'The letter you entered is invalid.'
 LETTER_ALREADY_PICKED_MESSAGE = 'The letter you entered was already chosen.'
-PLAY_AGAIN_MASSAGE = 'Number of games so far: {} . ' \
-                     'Your current score: {}. Want to continue?'
-START_OVER_MASSAGE = 'Number of games survived: {}. ' \
-                     'Start a new series of games?'
+PLAY_AGAIN_MASSAGE = 'Number of games so far: {} . Your current score: {}. Want to continue?'
+START_OVER_MASSAGE = 'Number of games survived: {}. Start a new series of games?'
 
 
 def run_single_game(words_list, score):
@@ -72,6 +70,7 @@ def main():
 
         # plays a series of single games until the player has 0 points:
         while points > 0:
+            # player decide if to play another game:
             if not helper.play_again(PLAY_AGAIN_MASSAGE.format(num_of_games, points)):
                 game_status = False  # game is no longer active
                 break
@@ -326,8 +325,7 @@ def initialize_the_game(score, word):
     wrong_guess_lst = []
     msg = EMPTY_MASSAGE
     pattern = '_' * len(word)
-    points = score
-    return wrong_guess_lst, msg, pattern, points
+    return wrong_guess_lst, msg, pattern, score
 
 
 def create_hints_words_list(pattern, hints_words_list, wrong_guess_lst):
@@ -343,8 +341,7 @@ def create_hints_words_list(pattern, hints_words_list, wrong_guess_lst):
     :return: a list of three (or less) optional words
     :rtype: list of str
     """
-    hints_words_list = filter_words_list(hints_words_list, pattern,
-                                         wrong_guess_lst)
+    hints_words_list = filter_words_list(hints_words_list, pattern, wrong_guess_lst)
     if len(hints_words_list) > helper.HINT_LENGTH:
         n = len(hints_words_list)
         hints_words_list = [hints_words_list[i * n // helper.HINT_LENGTH]
