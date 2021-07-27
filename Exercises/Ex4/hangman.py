@@ -7,9 +7,9 @@
 # WEB PAGES I USED: NONE
 # NOTES: NONE
 #################################################################
-from hangman_helper import *
+import hangman_helper as helper
 
-GENERAL_MASSAGE = ''
+EMPTY_MASSAGE = ''
 WIN_MASSAGE = 'You won the game!'
 LOSE_MASSAGE = 'You lost the game. The word was '
 LETTER_INVALID_MASSAGE = 'The letter you entered is invalid.'
@@ -30,25 +30,32 @@ def run_single_game(words_list, score):
     :return: final score
     :rtype: int
     """
-    word = get_random_word(words_list)
-    wrong_guess_lst, msg, pattern, points = initial_the_game(score, word)
+    word = helper.get_random_word(words_list)
+    wrong_guess_lst, msg, pattern, points = initialize_the_game(score, word)
+
     while pattern != word and points > 0:
-        display_state(pattern, wrong_guess_lst, points, msg)
-        type_input, user_input = get_input()
-        msg = GENERAL_MASSAGE
-        if type_input == HINT:
-            points, hint_lst = hint_input(points, words_list, pattern,
-                                          wrong_guess_lst)
-            show_suggestions(hint_lst)
-        elif type_input == WORD:
-            pattern, points = word_input(pattern, points, user_input, word)
-        elif type_input == LETTER:
+        helper.display_state(pattern, wrong_guess_lst, points, msg)
+        type_input, user_input = helper.get_input()  # get input from the user
+        msg = EMPTY_MASSAGE
+        # user choose to get hint:
+        if type_input == helper.HINT:
+            points -= 1  # decrease a point for asking hint
+            hints_words_list = create_hints_words_list(pattern, words_list, wrong_guess_lst)
+            helper.show_suggestions(hints_words_list)
+        # user choose word to guess:
+        elif type_input == helper.WORD:
+            points -= 1  # decrease a point for guessing a word
+            pattern, points = process_word_input(pattern, points, user_input, word)
+        # user choose to guess letter:
+        elif type_input == helper.LETTER:
             msg = check_if_letter_can_be_used(user_input, wrong_guess_lst, pattern)
-            if msg == GENERAL_MASSAGE:
-                pattern, points = letter_input(points, user_input, word,
-                                               pattern, wrong_guess_lst)
+            if msg == EMPTY_MASSAGE:  # letter can be used
+                points -= 1  # decrease a point for guessing a letter
+                pattern, points = process_letter_input(points, user_input, word,
+                                                       pattern, wrong_guess_lst)
+    # end of a single game
     msg = check_if_win_or_lose(pattern, word)
-    display_state(pattern, wrong_guess_lst, points, msg)
+    helper.display_state(pattern, wrong_guess_lst, points, msg)
     return points
 
 
@@ -57,21 +64,23 @@ def main():
     This function operates the game hangman. runs the single game as long as
     the user chooses.
     """
-    words_list = load_words('words.txt')
-    game_status = True
+    words_list = helper.load_words('words.txt')
+    game_status = True  # game is active
     while game_status:
-        initial_score = POINTS_INITIAL
+        points = run_single_game(words_list, helper.POINTS_INITIAL)  # first game
         num_of_games = 1
-        points = run_single_game(words_list, initial_score)
+
+        # plays a series of single games until the player has 0 points:
         while points > 0:
-            if play_again(PLAY_AGAIN_MASSAGE.format(num_of_games, points)) is False:
-                game_status = False
+            if not helper.play_again(PLAY_AGAIN_MASSAGE.format(num_of_games, points)):
+                game_status = False  # game is no longer active
                 break
             num_of_games += 1
             points = run_single_game(words_list, points)
 
+        # player got to 0 points and asked if wants to start over the game:
         if points == 0:
-            game_status = play_again(START_OVER_MASSAGE.format(num_of_games))
+            game_status = helper.play_again(START_OVER_MASSAGE.format(num_of_games))
 
 
 def update_word_pattern(word, pattern, letter):
@@ -123,10 +132,10 @@ def check_letter_already_picked(letter, wrong_guess_lst, pattern):
     return False
 
 
-def update_score(points, n):
+def returns_points_calculation(points, n):
     """
-    This function updates the score or the player with the number of
-    letters match.
+    This function returns the calculation of the players points by the number
+    of letters match.
     :param points: the current score
     :type points: int
     :param n: number of letters match
@@ -135,17 +144,6 @@ def update_score(points, n):
     :rtype: int
     """
     return points + (n * (n + 1) // 2)
-
-
-def update_wrong_hints(wrong_guess_lst, letter):
-    """
-    This function updates the wrong hints list.
-    :param wrong_guess_lst: list of wrong hints
-    :type wrong_guess_lst: list of str
-    :param letter: a letter
-    :type letter: str
-    """
-    wrong_guess_lst.append(letter)
 
 
 def check_if_win_or_lose(pattern, word):
@@ -164,9 +162,11 @@ def check_if_win_or_lose(pattern, word):
     return LOSE_MASSAGE + word
 
 
-def word_input(pattern, points, word_guessed, word):
+def process_word_input(pattern, points, word_guessed, word):
     """
-    This function updates the pattern and points according to the guessed word.
+    This function checks if the guessed word is correct.
+    if correct - returns the word and the new points of the player.
+    if not correct - returns the pattern, and points without a change.
     :param pattern: the current pattern
     :type pattern: str
     :param points: the current score
@@ -175,21 +175,20 @@ def word_input(pattern, points, word_guessed, word):
     :type word_guessed: str
     :param word: word to guess
     :type word: str
-    :return: updated pattern, updated points
+    :return: pattern, points
     :rtype: (str,int)
     """
-    points -= 1
     if word_guessed == word:
         n = pattern.count('_')
-        points = update_score(points, n)
-        pattern = word
+        new_points = returns_points_calculation(points, n)
+        return word, new_points
     return pattern, points
 
 
 def check_if_letter_can_be_used(letter, wrong_guess_lst, pattern):
     """
-    This function checks if the given letter is valid or already picked returns
-    a massage accordingly.
+    This function checks if the given letter is valid or already picked and
+    returns a massage accordingly. else, returns empty string.
     :param letter: a letter
     :type letter: str
     :param wrong_guess_lst: list of wrong hints
@@ -199,7 +198,7 @@ def check_if_letter_can_be_used(letter, wrong_guess_lst, pattern):
     :return: massage
     :rtype: str
     """
-    msg = GENERAL_MASSAGE
+    msg = EMPTY_MASSAGE
     if check_letter_validity(letter) is False:
         msg = LETTER_INVALID_MASSAGE
     elif check_letter_already_picked(letter, wrong_guess_lst, pattern):
@@ -207,11 +206,13 @@ def check_if_letter_can_be_used(letter, wrong_guess_lst, pattern):
     return msg
 
 
-def letter_input(points, letter, word, pattern, wrong_guess_lst):
+def process_letter_input(points, letter, word, pattern, wrong_guess_lst):
     """
-    This function updates the pattern and points according to the guessed
-    letter. if the letter is incorrect, updates the wrong hints list.
-    :param points: the current score
+    This function check if the letter is in the word:
+    if letter in word - returns new pattern, and the new points of the player.
+    if letter not in word - add letter to wrong_guess_lst and returns the
+    pattern and points unchanged.
+    :param points: the current points
     :type points: int
     :param letter: a letter
     :type letter: str
@@ -221,22 +222,21 @@ def letter_input(points, letter, word, pattern, wrong_guess_lst):
     :type pattern: str
     :param wrong_guess_lst: list of wrong hints
     :type wrong_guess_lst: list of str
-    :return: updated pattern, updated points
+    :return: pattern, points
     :rtype: (str, int)
     """
-    points -= 1
     if letter in word:
         n = word.count(letter)
-        points = update_score(points, n)
-        pattern = update_word_pattern(word, pattern, letter)
-        return pattern, points
-    update_wrong_hints(wrong_guess_lst, letter)
+        new_points = returns_points_calculation(points, n)
+        new_pattern = update_word_pattern(word, pattern, letter)
+        return new_pattern, new_points
+    wrong_guess_lst.append(letter)
     return pattern, points
 
 
 def filter_words_list(words, pattern, wrong_guess_lst):
     """
-    This function filters from the words given only the words that can
+    This function filters from the list of words given only the words that can
     fit the pattern and returns them in a list.
     :param words: a list of words
     :type words: list of str
@@ -256,7 +256,7 @@ def filter_words_list(words, pattern, wrong_guess_lst):
 def filter_no_same_length_words(pattern, words_lst):
     """
     This function returns a list of all the words from the given words list
-    that are in the same length of the pattern.
+    that are in the same length as the pattern.
     :param pattern: the current pattern
     :type pattern: str
     :param words_lst: a list of words
@@ -270,12 +270,12 @@ def filter_no_same_length_words(pattern, words_lst):
 def filter_incorrect_index_words(pattern, words_lst):
     """
     This function returns a list of all the words from the given words list
-    that has the same letters as the pattern and in the same place.
+    that has the same letters in the same index as the pattern.
     :param pattern: the current pattern
     :type pattern: str
     :param words_lst: a list of words
     :type words_lst: list of str
-    :return: list of words with the same letters in the same place as the pattern
+    :return: list of words with the same letters in the same index as the pattern
     :rtype: list of str
     """
     set_letters = set(pattern.replace('_', ''))  # letters shown in the pattern
@@ -301,7 +301,7 @@ def create_pattern_from_word(letters_set, word):
 def filter_wrong_letters(words_lst, wrong_guess_lst):
     """
     This function returns a list of all the words from the given words list
-    that don't contain letters from wrong guess lst.
+    that don't contain letters from the wrong_guess_lst.
     :param words_lst: a list of words
     :type words_lst: list of str
     :param wrong_guess_lst: list of wrong letters
@@ -313,9 +313,9 @@ def filter_wrong_letters(words_lst, wrong_guess_lst):
             any(i for i in word if i in wrong_guess_lst) is False]
 
 
-def initial_the_game(score, word):
+def initialize_the_game(score, word):
     """
-    This function initials the game start values.
+    This function initialize the game start values.
     :param score: the initial score
     :type score: int
     :param word: the word to guess
@@ -324,50 +324,32 @@ def initial_the_game(score, word):
     :rtype: (list, str, str, int)
     """
     wrong_guess_lst = []
-    msg = GENERAL_MASSAGE
+    msg = EMPTY_MASSAGE
     pattern = '_' * len(word)
     points = score
     return wrong_guess_lst, msg, pattern, points
 
 
-def hint_input(points, words_lst, pattern, wrong_guess_lst):
+def create_hints_words_list(pattern, hints_words_list, wrong_guess_lst):
     """
-    This function decrease one pont from the player points and returns
-    optional list of words.
-    :param points: the current score
-    :type points: int
-    :param words_lst: a list of words
-    :type words_lst: list of str
-    :param pattern: the current pattern
-    :type pattern: str
-    :param wrong_guess_lst: list of wrong letters
-    :type wrong_guess_lst: list of str
-    :return: updated points, list of hints words
-    :rtype: (int, list or str)
-    """
-    points -= 1
-    optional_words_lst = create_optional_list(pattern, words_lst, wrong_guess_lst)
-    return points, optional_words_lst
-
-
-def create_optional_list(pattern, words_lst, wrong_guess_lst):
-    """
-    This function returns a list of three (or less) optional words that can
+    This function returns a list of three (or less) hints words that can
     fit the pattern.
     :param pattern: the current pattern
     :type pattern: str
-    :param words_lst: a list of words
-    :type words_lst: list of str
+    :param hints_words_list: a list of words
+    :type hints_words_list: list of str
     :param wrong_guess_lst: list of wrong letters
     :type wrong_guess_lst: list of str
     :return: a list of three (or less) optional words
     :rtype: list of str
     """
-    words_lst = filter_words_list(words_lst, pattern, wrong_guess_lst)
-    if len(words_lst) > HINT_LENGTH:
-        n = len(words_lst)
-        words_lst = [words_lst[i * n // HINT_LENGTH] for i in range(HINT_LENGTH)]
-    return words_lst
+    hints_words_list = filter_words_list(hints_words_list, pattern,
+                                         wrong_guess_lst)
+    if len(hints_words_list) > helper.HINT_LENGTH:
+        n = len(hints_words_list)
+        hints_words_list = [hints_words_list[i * n // helper.HINT_LENGTH]
+                            for i in range(helper.HINT_LENGTH)]
+    return hints_words_list
 
 
 if __name__ == '__main__':
