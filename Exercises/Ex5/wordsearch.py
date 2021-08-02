@@ -83,13 +83,13 @@ def find_words(word_list, matrix, directions):
     :rtype: list[tuple[str,int]]
     """
     if len(word_list) == 0 or len(matrix) == 0:
-        return []  # in case of empty matrix or word list
+        return []  # in case of empty matrix or words list
     words_count_dict = {}
     for direction in set(directions):
         matrix_copy = copy.deepcopy(matrix)  # so we won't change the original matrix
         directions_lst = return_list_according_to_directions(direction, matrix_copy)
         count_words(directions_lst, word_list, words_count_dict)
-    # convert dictionary to tuple:
+    # convert dictionary to list of tuples:
     return [(k, v) for k, v in words_count_dict.items()]
 
 
@@ -112,7 +112,7 @@ def return_list_according_to_directions(direction, matrix):
         return right(matrix)
     if direction == 'l':  # ←
         return left(matrix)
-    return diagonal_search(matrix, direction)
+    return diagonal_search(matrix, direction)  # in case of diagonal direction
 
 
 def diagonal_search(matrix, direction):
@@ -154,6 +154,9 @@ def diagonal_raise(columns, matrix, columns_direction):
     :return: list of organized matrix lines joined
     :rtype: list[str]
     """
+    # [1,2,3]      rise right                  rise left
+    # [4,5,6] ---> ['1','42','753','86','9'] / ['3','62','951','84','7']
+    # [7,8,9]
     rows = len(matrix)
     diagonal_matrix = [[] for i in range(rows + columns - 1)]
     diagonal_matrix_index = 0
@@ -179,6 +182,9 @@ def diagonal_descends(columns, matrix, columns_direction):
     :return: list of organized matrix lines joined
     :rtype: list[str]
     """
+    # [1,2,3]      descend left                descend right
+    # [4,5,6] ---> ['1','24','357','68','9'] / ['3','26','159','48','7']
+    # [7,8,9]
     return [string[::-1] for string in diagonal_raise(columns, matrix, columns_direction)]
 
 
@@ -190,6 +196,9 @@ def up(matrix):  # ↑
     :return: a list of organized matrix lines joined
     :rtype: list[str]
     """
+    # [1,2,3]      ['741']
+    # [4,5,6] ---> ['852']
+    # [7,8,9]      ['963']
     return [''.join([row[i] for row in matrix[::-1]]) for i in range(len(matrix[0]))]
 
 
@@ -201,6 +210,9 @@ def down(matrix):  # ↓
     :return: a list of organized matrix lines joined
     :rtype: list[str]
     """
+    # [1,2,3]      ['147']
+    # [4,5,6] ---> ['258']
+    # [7,8,9]      ['369']
     return [''.join([row[i] for row in matrix]) for i in range(len(matrix[0]))]
 
 
@@ -212,6 +224,9 @@ def right(matrix):  # →
     :return: a list of organized matrix lines joined
     :rtype: list[str]
     """
+    # [1,2,3]      ['123']
+    # [4,5,6] ---> ['456']
+    # [7,8,9]      ['789']
     return [''.join(lst) for lst in matrix]
 
 
@@ -223,6 +238,9 @@ def left(matrix):  # ←
     :return: a list of organized matrix lines joined
     :rtype: list[str]
     """
+    # [1,2,3]      ['321']
+    # [4,5,6] ---> ['654']
+    # [7,8,9]      ['987']
     return [''.join(lst[::-1]) for lst in matrix]
 
 
