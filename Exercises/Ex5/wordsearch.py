@@ -1,18 +1,17 @@
 import sys
-from typing import List, Dict, Tuple, Set, Optional
+from typing import Set
 import os.path
-import copy
 
 
 INVALID_NUM_MASSAGE: str = 'Invalid number of parameters.'
-NO_FILE_MASSAGE: str = 'No words file was found.'
+NO_FILE_MASSAGE: str = 'No file was found.'
 ILLEGAL_DIRECTIONS: str = 'Directions contain illegal characters. '
 DIRECTIONS: Set[str] = {'u', 'd', 'r', 'l', 'w', 'x', 'y', 'z'}
 
 
 def check_input_args(args):
     """
-    This function checks if the input arguments are valid to use.
+    Checks if the input arguments are valid to use.
     if not valid - returns an informative massage accordingly.
     if valid - returns None.
     :param args: list of arguments
@@ -30,21 +29,21 @@ def check_input_args(args):
 
 def contain_only_legal_directions(directions):
     """
-    This function checks if the directions contains only legal directions.
-    :param directions: matrix search directions
+    Checks if the given directions contains only legal directions characters.
+    :param directions: directions
     :type directions: str
-    :return: False if found illegal directions, else True.
+    :return: False if found illegal directions characters, else True.
     :rtype: bool
     """
-    for i in directions:
-        if i not in DIRECTIONS:
+    for char in directions:
+        if char not in DIRECTIONS:
             return False
     return True
 
 
 def read_wordlist(filename):
     """
-    This function open and reads the words file and returns a list of words.
+    Open and reads the words file and returns a list of words.
     :param filename: words file path
     :type filename: str
     :return: list of words
@@ -56,23 +55,22 @@ def read_wordlist(filename):
 
 def read_matrix(filename: str):
     """
-    This function open and reads the matrix file and returns a list of lists
-    of letters.
+    Open and reads the matrix file and returns a 2D list of the matrix letters.
     :param filename: matrix file path
     :type filename: str
-    :return: 2D list of the matrix letters
+    :return: matrix
     :rtype: list[list[str]]
     """
-    with open(filename, 'r') as words_file:
-        return [line.strip().split(',') for line in words_file.readlines()]
+    with open(filename, 'r') as matrix_file:
+        return [line.strip().split(',') for line in matrix_file.readlines()]
 
 
 def find_words(word_list, matrix, directions):
     """
-    This function search and counts the number of words is the matrix according
-    to the directions given and returns them in a list of couples (word, count)
-    where word is a word that appears in the matrix, and count is the times the
-    same word was found.
+    Search and counts the number of words from the words list found in the matrix
+    according to the directions given and returns them in a list of couples
+    (word, count) where word is a word that appears in the matrix, and count is
+    the times the same word was found.
     :param word_list: list of words
     :type word_list: list[str]
     :param matrix: 2D list of the matrix letters
@@ -86,8 +84,7 @@ def find_words(word_list, matrix, directions):
         return []  # in case of empty matrix or words list
     words_count_dict = {}
     for direction in set(directions):
-        matrix_copy = copy.deepcopy(matrix)  # so we won't change the original matrix
-        directions_lst = return_list_according_to_directions(direction, matrix_copy)
+        directions_lst = return_list_according_to_directions(direction, matrix)
         count_words(directions_lst, word_list, words_count_dict)
     # convert dictionary to list of tuples:
     return [(k, v) for k, v in words_count_dict.items()]
@@ -158,7 +155,8 @@ def diagonal_raise(columns, matrix, columns_direction):
     # [4,5,6] ---> ['1','42','753','86','9'] / ['3','62','951','84','7']
     # [7,8,9]
     rows = len(matrix)
-    diagonal_matrix = [[] for i in range(rows + columns - 1)]
+    number_of_diagonals = rows + columns - 1
+    diagonal_matrix = [[] for i in range(number_of_diagonals)]
     diagonal_matrix_index = 0
     for i in columns_direction:
         m = diagonal_matrix_index
@@ -246,8 +244,8 @@ def left(matrix):  # ←
 
 def count_words(lines_lst, words_lst, words_count_dict):
     """
-    This function get a list of lines and counts the number of times a word
-    from the words list is shown, and then updates the dictionary.
+    This function get a list of matrix lines joined and counts the number of
+    times a word from the words list is shown, and updates the dictionary.
     :param lines_lst: list of matrix lines joined
     :type lines_lst: list[str]
     :param words_lst: list of words
@@ -281,8 +279,8 @@ def write_output(results, filename):
 def main(args):
     """
     This function gets list of args [word_file, matrix_file, output_file, directions],
-    search words in matrix according to the directions and write
-    the results to a file.
+    search words in matrix according to the directions and write the results
+    to a file.
     :param args: list of args
     :type args: list[str]
     """
