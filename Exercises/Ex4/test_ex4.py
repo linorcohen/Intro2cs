@@ -68,7 +68,7 @@ def text_filter_words_list():
     assert filter_words_list(['love', 'home'], '____', ['r']) == ['love', 'home']
     assert filter_words_list(['love', 'home'], '____', ['m']) == ['love']
     assert filter_words_list(['love', 'home'], '____', ['l']) == ['home']
-    assert filter_words_list(['love', 'home'], '___', ['r']) == []
+    assert filter_words_list(['love', 'hove'], '___', ['r']) == []
 
 
 def test_filter_no_same_length_words():
