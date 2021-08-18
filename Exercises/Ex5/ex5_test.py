@@ -33,7 +33,7 @@ def test_contain_only_legal_directions():
 
 
 def test_read_wordlist():
-    print(read_wordlist('word_list.txt'))
+    print(read_wordlist('word_list_test_2.txt'))
 
 
 def test_read_matrix():
@@ -161,7 +161,7 @@ def test():
 if __name__ == '__main__':
     # test_parameters_validity()
     # test_contain_only_legal_directions()
-    # test_read_wordlist()
+    test_read_wordlist()
     # test_read_matrix()
     # test_matrix_to_list_of_str()
     # test_count_words()

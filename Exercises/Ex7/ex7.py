@@ -7,7 +7,7 @@
 # WEB PAGES I USED: https://en.wikipedia.org/wiki/Tower_of_Hanoi
 # NOTES: NONE
 #################################################################
-from typing import Any, List, Tuple
+from typing import Any, List, Tuple, Set
 
 FILL_MOVES = {'up': (-1, 0), 'down': (1, 0), 'right': (0, 1), 'left': (0, -1)}
 
@@ -91,7 +91,7 @@ def play_hanoi(hanoi: Any, n: int, src: Any, dst: Any, temp: Any) -> None:
     """
     if n <= 0:
         return
-    _play_hanoi_helper(hanoi, n, (0, 1, 2), (src, temp, dst))
+    _play_hanoi_helper(hanoi, n, (0, 1, 2), (src, dst, temp))
 
 
 def _play_hanoi_helper(hanoi: Any, n: int, rods: Tuple[int, int, int],
@@ -168,11 +168,12 @@ def print_no_repetition_sequences(char_list: List[str], n: int) -> None:
     :param n: length of the sequence combinations
     :type n: int
     """
-    _print_no_repetition_sequences(char_list, n, [])
+    visited: Set[str] = set()
+    _print_no_repetition_sequences(char_list, n, [], visited)
 
 
 def _print_no_repetition_sequences(char_list: List[str], n: int,
-                                   seq: List[str]) -> None:
+                                   seq: List[str], visited: Set[str]) -> None:
     """
     Helper function for the function print_no_repetition_sequences():
     The function finds in a recursive way all the possible combinations in
@@ -185,17 +186,19 @@ def _print_no_repetition_sequences(char_list: List[str], n: int,
     :param seq: current sequence of combination list
     :type seq: List[str]
     """
-    if len(seq) > 1 and seq[-1] in seq[:-1]:
-        return
 
     if len(seq) == n:
         print(''.join(seq))
         return
 
     for letter in char_list:
+        if letter in visited:
+            continue
+        visited.add(letter)
         seq.append(letter)
-        _print_no_repetition_sequences(char_list, n, seq)
+        _print_no_repetition_sequences(char_list, n, seq, visited)
         seq.pop()
+        visited.remove(letter)
 
 
 def parentheses(n: int) -> List[str]:
@@ -274,4 +277,4 @@ def flood_fill(image: List[List[str]], start: Tuple[int, int]) -> None:
                        FILL_MOVES[move][1]
         flood_fill(image, new_position)
         start = new_position[0] - FILL_MOVES[move][0], new_position[1] - \
-                FILL_MOVES[move][1]
+            FILL_MOVES[move][1]

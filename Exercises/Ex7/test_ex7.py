@@ -38,9 +38,9 @@ def test_is_prime():
 
 if __name__ == '__main__':
     # print_to_n(10)
-    # print_sequences(['a'],2)
+    # print_sequences([],4)
     # print(parentheses(0))
-    # print_no_repetition_sequences(['a'], 2)
+    # print_no_repetition_sequences(['a'], 0)
     # print_no_repetition_sequences(['a', 'b','c','d'], 4)
     # test_digit_sum()
     # test_is_prime()
