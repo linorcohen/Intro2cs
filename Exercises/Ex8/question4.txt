@@ -1,0 +1,34 @@
+def solve_easy_nonogram(constraints):
+    board = []
+    for row in constraints[0]:
+        row_constraint = constraint_satisfactions(len(constraints[0]), row)
+        row_intersection = intersection_row(row_constraint)
+        board.append(row_intersection)
+
+    return board
+
+
+def check_rows(board, constraints):
+    for row in range(len(board)):
+        variations = row_variations(board[row], constraints[row])
+        if len(variations) == 1:
+            board[row] = variations[0]
+            continue
+        board[row] = intersection_row(variations)
+    return board
+
+
+def check_columns(board, constraints):
+    for i in range(len(board[0])):
+        column = [row[i] for row in board]
+        variations = row_variations(column, constraints[i])
+        if len(variations) == 1:
+            column = variations[0]
+            for j in range(len(board)):
+                board[j][i] = column[i]
+            continue
+        column = intersection_row(variations)
+        for j in range(len(board)):
+            board[j][i] = column[i]
+            print(column)
+    return board

@@ -1,0 +1,27 @@
+def check_records_contain_symptoms_path(records, symptoms_path):
+	records_dict = {}
+	for record in records:
+		if all(symptom in record.symptoms for symptom in symptoms_path):
+			if record.illness not in records_dict:
+				records_dict[record.illness] = 0
+			records_dict[record.illness] += 1
+	return records_dict
+
+    def __repr__(self):
+            printble = [""]
+
+            def repr_helper(cur_node: Node, depth: int):
+                if cur_node is None:
+                    return
+
+                if cur_node.positive_child:
+                    printble[0] += str(cur_node.data) + '?\n'
+                    printble[0] += '\t' * (depth + 1) + 'yes: '
+                    repr_helper(cur_node.positive_child, depth + 1)
+                    printble[0] += '\t' * (depth + 1) + 'no: '
+                    repr_helper(cur_node.negative_child, depth + 1)
+                else:
+                    printble[0] += str(cur_node.data) + '!\n'
+
+            repr_helper(self.root, 0)
+            return printble[0]

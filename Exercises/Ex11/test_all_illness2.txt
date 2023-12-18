@@ -1,0 +1,8 @@
+meningitis
+healthy
+healthy
+mono a
+mono a b
+strep c
+strep c d
+strep c d e

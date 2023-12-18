@@ -1,0 +1,36 @@
+def constraint_satisfactions(n, blocks):
+    row = [0 for i in range(n)]
+    possible_rows = []
+    _constraint_satisfactions_helper(n, blocks, row, possible_rows, 0, 0)
+    return possible_rows
+
+
+def _constraint_satisfactions_helper(n, blocks, row, possible_rows, index, blocks_index):
+    if sum(row) == sum(blocks):
+        possible_rows.append(row[:])
+        return
+
+    for i in range(index, n):
+        if i > n - blocks[blocks_index]:
+            continue
+        if is_valid_to_place(row, i):
+            row = place_blocks(row, blocks[blocks_index], i)
+            _constraint_satisfactions_helper(n, blocks, row, possible_rows, i, blocks_index+1)
+            row = remove_blocks(row, blocks[blocks_index], i)
+
+
+# combine to one function
+# O(n)
+def remove_blocks(row, block, i):
+    for j in range(block):
+        row[i] = 0
+        i += 1
+    return row
+
+
+# O(n)
+def place_blocks(row, block, i):
+    for j in range(block):
+        row[i] = 1
+        i += 1
+    return row

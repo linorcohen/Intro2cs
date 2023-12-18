@@ -1,0 +1,236 @@
+def row_variations(row, blocks):
+    # remove line
+    possible_rows = constraint_satisfactions(len(row), blocks)
+    variations = []
+    _row_variations_helper(row[:], possible_rows, blocks, 0, variations)
+    return variations
+
+
+def _row_variations_helper(row, possible_rows, blocks, index, variations):
+    if row in possible_rows:
+        variations.append(row[:])
+        return
+
+    if row.count(1) > sum(blocks):
+        return
+
+    if index >= len(row):
+        return
+
+    if row[index] == -1:
+        row[index] = 1
+        _row_variations_helper(row, possible_rows, blocks, index+1, variations)
+        row[index] = 0
+        _row_variations_helper(row, possible_rows, blocks, index+1, variations)
+        row[index] = -1
+    _row_variations_helper(row, possible_rows, blocks, index+1, variations)
+
+def row_variations(row, blocks):
+    variations = []
+    _row_variations_helper(row[:], 0, blocks, 0, 0,0, variations)
+    return variations
+
+
+def _row_variations_helper(row, count_one, blocks, index, blocks_index, sum_, variations):
+    if index == len(row) and sum_+count_one == sum(blocks):
+        variations.append(row[:])
+        return
+
+    if index == len(row) and sum_ != sum(blocks):
+        return
+
+    if row[index] != -1:
+        if row[index] == 1:
+            count_one += 1
+        if row[index] == 0:
+            sum_ += count_one
+            count_one = 0
+        _row_variations_helper(row, count_one, blocks, index + 1, blocks_index, sum_ , variations)
+
+    if row[index] == -1:
+        if sum_ < sum(blocks) and count_one < blocks[blocks_index]:
+            row[index] = 1
+            _row_variations_helper(row, count_one + 1, blocks, index + 1, blocks_index, sum_, variations)
+            row[index] = 0
+            count_one = 0
+            _row_variations_helper(row, count_one, blocks, index + 1, blocks_index, sum_, variations)
+        else:
+            blocks_index += 1
+            sum_ += count_one
+            count_one = 0
+            row[index] = 0
+            _row_variations_helper(row, count_one, blocks, index + 1, blocks_index, sum_, variations)
+        row[index] = -1
+
+
+def row_variations(row, blocks):
+    variations = []
+    _row_variations_helper(row[:], 0, blocks, 0, 0, 0, variations)
+    return variations
+
+
+
+#final version:
+def _row_variations_helper(row, count_one, blocks, index, blocks_index, blocks_sum, variations):
+    if index == len(row) and blocks_sum+count_one == sum(blocks):
+        variations.append(row[:])
+        return
+
+    if index == len(row) or (index == len(row) and blocks_sum != sum(blocks)):
+        return
+
+    if row[index] != -1:
+        if row[index] == 1:
+            count_one += 1
+        if row[index] == 0:
+            blocks_sum += count_one
+            count_one = 0
+        _row_variations_helper(row, count_one, blocks, index + 1, blocks_index, blocks_sum, variations)
+
+    if row[index] == -1:
+        if blocks_sum < sum(blocks) and count_one < blocks[blocks_index]:
+            row[index] = 1
+            _row_variations_helper(row, count_one + 1, blocks, index + 1, blocks_index, blocks_sum, variations)
+        else:
+            blocks_index += 1
+            blocks_sum += count_one
+        row[index] = 0
+        _row_variations_helper(row, 0, blocks, index + 1, blocks_index, blocks_sum, variations)
+        row[index] = -1
+
+
+def row_variations(row, blocks):
+    variations = []
+    _row_variations_helper(row, [], blocks, 0, variations)
+    return variations
+
+
+def _row_variations_helper(row, temp_lst, blocks, index, variations):
+    print(temp_lst)
+    if len(temp_lst) == len(row):
+        if -1 in temp_lst:
+            return
+        if temp_lst in variations:
+            return
+
+        if is_valid(temp_lst, row, blocks):
+            variations.append(temp_lst[:])
+        return
+
+    if sum(temp_lst) > sum(blocks) or index >= len(row) or temp_lst.count(1) > sum(blocks):
+        return
+
+    if row[index] == 1:
+        temp_lst.append(1)
+
+    if row[index] == 0:
+        temp_lst.append(0)
+
+    if row[index] == -1:
+        temp_lst.append(1)
+        _row_variations_helper(row, temp_lst, blocks, index+1, variations)
+        temp_lst.pop()
+        temp_lst.append(0)
+        _row_variations_helper(row, temp_lst, blocks, index+1, variations)
+        # temp_lst.pop()
+        # temp_lst.append(-1)
+    _row_variations_helper(row, temp_lst, blocks, index+1, variations)
+    if len(temp_lst) > 0:
+        temp_lst.pop()
+
+
+def is_valid(temp_lst, row_to_check, blocks):
+    block_created = []
+    block = 0
+    for i in range(len(row_to_check)):
+        if temp_lst[i] == 0:
+            block_created.append(block)
+            block = 0
+            continue
+        if temp_lst[i] == 1:
+            block += 1
+    block_created.append(block)
+    block_created = [i for i in block_created if i > 0]
+    return block_created == blocks
+
+
+ def row_variations(row, blocks):
+     variations = []
+     _row_variations_helper(row, [], blocks, 0, variations)
+     return variations
+
+
+ def _row_variations_helper(row, temp_lst, blocks, index, variations):
+     if len(temp_lst) == len(row) :
+         if temp_lst in variations:
+             return
+
+         if is_valid(temp_lst, row, blocks):
+             variations.append(temp_lst[:])
+         return
+
+     if sum(temp_lst) > sum(blocks) or index >= len(row) or temp_lst.count(1) > sum(blocks):
+         return
+
+     if row[index] == 1:
+         temp_lst.append(1)
+
+     if row[index] == 0:
+         temp_lst.append(0)
+
+     if row[index] == -1:
+         if temp_lst.count(1) < sum(blocks):
+             temp_lst.append(1)
+             _row_variations_helper(row, temp_lst, blocks, index+1, variations)
+             temp_lst.pop()
+         temp_lst.append(0)
+     _row_variations_helper(row, temp_lst, blocks, index+1, variations)
+         # temp_lst.pop()
+         # temp_lst.append(-1)
+     # _row_variations_helper(row, temp_lst, blocks, index+1, variations)
+     if len(temp_lst) > 0:
+         temp_lst.pop()
+
+
+ def is_valid(temp_lst, row_to_check, blocks):
+     block_created = []
+     block = 0
+     for i in range(len(row_to_check)):
+         if temp_lst[i] == 0:
+             block_created.append(block)
+             block = 0
+             continue
+         if temp_lst[i] == 1:
+             block += 1
+     block_created.append(block)
+     block_created = [i for i in block_created if i > 0]
+     return block_created == blocks
+
+  newww
+
+def row_variations(row, blocks):
+    # remove line
+    possible_rows = constraint_satisfactions(len(row), blocks)
+    variations = []
+    _row_variations_helper(row[:],row, possible_rows, blocks, 0, variations)
+    return variations
+
+
+def _row_variations_helper(row,row_to_compre, possible_rows, blocks, index, variations):
+    if row in possible_rows:
+        variations.append(row[:])
+        return
+
+    if row.count(1) > sum(blocks):
+        return
+
+    if index >= len(row):
+        return
+
+    if row[index] == -1:
+        row[index] = 1
+        _row_variations_helper(row,row_to_compre, possible_rows, blocks, index+1, variations)
+        row[index] = 0
+    _row_variations_helper(row,row_to_compre, possible_rows, blocks, index+1, variations)
+    if row_to_compre[index] == -1:
+        row[index] = -1

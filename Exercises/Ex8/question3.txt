@@ -1,0 +1,18 @@
+def intersection_row(rows):
+    row_intersection = rows[0][:]
+    _intersection_row_helper(rows, 0, 0, row_intersection)
+    return row_intersection
+
+
+# O(2^n) / O(n^2)
+def _intersection_row_helper(rows, row_index, index, row_intersection):
+    if row_index == len(rows) or index == len(row_intersection):
+        return
+
+    if rows[row_index][index] != -1 and rows[row_index][index] != row_intersection[index]:
+        row_intersection[index] = -1
+        return
+
+    _intersection_row_helper(rows, row_index+1, index, row_intersection)
+    if row_index == 0:
+        _intersection_row_helper(rows, row_index, index+1, row_intersection)
