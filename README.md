@@ -14,7 +14,7 @@
 - Ex5 - A program that finds words in a letters matrix (Tifzoret).
 - Ex7 - A simple program practice recursion.
 - Ex8 - A program that to solves nonogram.
-- Ex9 - A program of the game rush hour, using oop.
+- Ex9 - A program of the game rush hour, using OOP.
 - Ex11 - A program of illness diagnose with binary search tree.
 
 ## Installation
