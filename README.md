@@ -12,7 +12,9 @@
 - Ex3 - A simple program that practice the use of loops.
 - Ex4 - A simple program that operates the game hangman.
 - Ex5 - A program that finds words in a letters matrix (Tifzoret).
-- Ex7 - A simple program practice recursion.
+- Ex7 - Contains two programs:  
+&emsp; 1. ex7.py - A simple program practice recursion.  
+&emsp; 2. hanoi_game.py - Animated Tower-Of-Hanoi game with Tkinter GUI using Python's turtle module.  
 - Ex8 - A program that to solves nonogram.
 - Ex9 - A program of the game rush hour, using OOP.
 - Ex11 - A program of illness diagnose with binary search tree.
